@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
+import { router } from "expo-router";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -25,16 +26,13 @@ const cards = [
   require("../assets/images/fool_1.png"),
 ];
 
-export default function ShuffleAnimation({
-  onShuffleEnd,
-}: {
-  onShuffleEnd: () => void;
-}) {
+export default function ShuffleAnimation() {
   const rotations = cards.map(() => useSharedValue(0));
   const positions = cards.map(() => ({
     x: useSharedValue(0),
     y: useSharedValue(0),
   }));
+  const navigationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     // 繰り返しのシャッフル動作
@@ -90,6 +88,10 @@ export default function ShuffleAnimation({
         cancelAnimation(p.x);
         cancelAnimation(p.y);
       });
+
+      if (navigationTimeout.current) {
+        clearTimeout(navigationTimeout.current);
+      }
     };
   }, []);
 
@@ -112,7 +114,13 @@ export default function ShuffleAnimation({
       p.x.value = withTiming(0, { duration: 200 });
       p.y.value = withTiming(0, { duration: 200 });
     });
-    onShuffleEnd();
+    if (navigationTimeout.current) {
+      clearTimeout(navigationTimeout.current);
+    }
+
+    navigationTimeout.current = setTimeout(() => {
+      router.push("/result");
+    }, 300);
   };
 
   return (
