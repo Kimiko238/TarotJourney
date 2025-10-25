@@ -16,7 +16,8 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        <Stack.Screen name="drow" options={{ title: 'カードを引く' }} />
+        <Stack.Screen name="result" options={{ title: '結果' }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
