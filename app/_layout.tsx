@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/constants/theme';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -14,7 +15,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack
+        screenOptions={{
+             headerStyle: { backgroundColor: Colors.light.background },
+            headerTintColor: Colors.light.text,
+        contentStyle: { backgroundColor: Colors.light.background }, 
+        }}
+        >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="drow" options={{ title: 'カードを引く' }} />
         <Stack.Screen name="result" options={{ title: '結果' }} />

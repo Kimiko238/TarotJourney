@@ -15,7 +15,10 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarPosition: 'top',
+        tabBarPosition: "top",
+        
+        headerTintColor: Colors.light.text,
+        tabBarStyle: { backgroundColor: Colors.light.background },
       }}
     >
       {/* ホーム画面の設定 */}

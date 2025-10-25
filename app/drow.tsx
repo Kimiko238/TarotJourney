@@ -12,7 +12,10 @@ export default function ShuffleView(spread: string) {
      router.push("/result");
   };
 
-  return <ShuffleAnimation spread={spread} onSwitchPress={handlePress} />;
+  return (
+    
+  <ShuffleAnimation spread={spread} onSwitchPress={handlePress} />
+);
 }
 
 const styles = StyleSheet.create({});

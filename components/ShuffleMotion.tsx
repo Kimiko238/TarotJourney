@@ -1,16 +1,8 @@
-import { router } from "expo-router";
-import { useEffect, useMemo, useRef } from "react";
-import {
-  Animated,
-  Button,
-  Dimensions,
-  Easing,
-  Image,
-  StyleSheet,
-  View,
-} from "react-native";
-import {
+import { useEffect, useRef } from "react";
+import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
+import Animated, {
   cancelAnimation,
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -40,14 +32,11 @@ export default function ShuffleAnimation({
   spread: string;
   onSwitchPress: () => void;
 }) {
-  const rotations =  useMemo(() => cards.map(() => useSharedValue(0)), []);
-  const positions = useMemo(
-    () =>cards.map(() => ({
+  const rotations = cards.map(() => useSharedValue(0));
+  const positions = cards.map(() => ({
     x: useSharedValue(0),
     y: useSharedValue(0),
-  })),
-  []
-);
+  }));
   const navigationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -80,8 +69,8 @@ export default function ShuffleAnimation({
 
         p.x.value = withRepeat(
           withSequence(
-            withTiming((Math.random() - 0.1) * randomRangeX, { duration: 900 }),
-            withTiming((Math.random() - 0.5) * randomRangeX, { duration: 400 })
+            withTiming((Math.random() - 0.5) * randomRangeX, { duration: 900 }),
+            withTiming((Math.random() - 0.2) * randomRangeX, { duration: 400 })
           ),
           -1,
           true
@@ -135,7 +124,7 @@ export default function ShuffleAnimation({
     }
 
     navigationTimeout.current = setTimeout(() => {
-    onSwitchPress();
+      onSwitchPress();
     }, 300);
   };
 
@@ -157,7 +146,7 @@ export default function ShuffleAnimation({
       </View>
       {/* ボタンを下部に配置 */}
       <View style={styles.buttonContainer}>
-        <Button title="カードを引く"  onPress={handleDrawPress}/>
+        <Button title="カードを引く" onPress={handleDrawPress} />
       </View>
     </View>
   );
