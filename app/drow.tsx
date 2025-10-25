@@ -1,21 +1,7 @@
-<<<<<<< Updated upstream
-import React, { useEffect } from "react";
-import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
-import Animated, {
-  cancelAnimation,
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from "react-native-reanimated";
-=======
 import React from "react";
 import { StyleSheet } from "react-native";
 import ShuffleAnimation from "../components/ShuffleMotion";
 import { router } from "expo-router";
->>>>>>> Stashed changes
 
 export default function ShuffleView(spread: string) {
   const handlePress = () => {
@@ -23,98 +9,7 @@ export default function ShuffleView(spread: string) {
     console.log("ボタンが押されました。ここで抽選を開始します。");
 
 
-<<<<<<< Updated upstream
-export default function ShuffleAnimation({
-  onShuffleEnd,
-}: {
-  onShuffleEnd: () => void;
-}) {
-  const rotations = cards.map(() => useSharedValue(0));
-  const positions = cards.map(() => ({
-    x: useSharedValue(0),
-    y: useSharedValue(0),
-  }));
-
-  useEffect(() => {
-    // 繰り返しのシャッフル動作
-    rotations.forEach((rotation, i) => {
-      const delay = i * 100;
-      setTimeout(() => {
-        rotation.value = withRepeat(
-          withSequence(
-            withTiming(-45 + Math.random() * 30, {
-              duration: 800,
-              easing: Easing.linear,
-            }),
-            withTiming(45 + Math.random() * 30, {
-              duration: 800,
-              easing: Easing.linear,
-            })
-          ),
-          -1,
-          true
-        );
-      }, delay);
-    });
-
-    positions.forEach((p, i) => {
-      const delay = i * 150;
-      setTimeout(() => {
-        const randomRangeX = width * 0.25;
-        const randomRangeY = height * 0.25;
-
-        p.x.value = withRepeat(
-          withSequence(
-            withTiming((Math.random() - 0.1) * randomRangeX, { duration: 900 }),
-            withTiming((Math.random() - 0.5) * randomRangeX, { duration: 400 })
-          ),
-          -1,
-          true
-        );
-
-        p.y.value = withRepeat(
-          withSequence(
-            withTiming((Math.random() - 0.4) * randomRangeY, { duration: 400 }),
-            withTiming((Math.random() - 0.5) * randomRangeY, { duration: 900 })
-          ),
-          -1,
-          true
-        );
-      }, delay);
-    });
-
-    return () => {
-      rotations.forEach(cancelAnimation);
-      positions.forEach((p) => {
-        cancelAnimation(p.x);
-        cancelAnimation(p.y);
-      });
-    };
-  }, []);
-
-  //見た目に反映
-  const animatedStyles = rotations.map((r, i) =>
-    useAnimatedStyle(() => ({
-      transform: [
-        { rotate: `${r.value}deg` },
-        { translateX: positions[i].x.value },
-        { translateY: positions[i].y.value },
-      ],
-    }))
-  );
-
-  // 「カードを引く」ボタンを押下時：アニメ停止→位置を戻す→onShuffleEnd()
-  const handleDrawPress = () => {
-    rotations.forEach(cancelAnimation);
-    rotations.forEach((r) => (r.value = withTiming(0, { duration: 200 })));
-    positions.forEach((p) => {
-      p.x.value = withTiming(0, { duration: 200 });
-      p.y.value = withTiming(0, { duration: 200 });
-    });
-    onShuffleEnd();
-=======
      router.push("/result");
->>>>>>> Stashed changes
   };
 
   return <ShuffleAnimation spread={spread} onSwitchPress={handlePress} />;
