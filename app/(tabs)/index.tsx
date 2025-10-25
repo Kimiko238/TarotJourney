@@ -13,7 +13,7 @@ export default function HomeScreen() {
       <Text>あなたが気になることは何でしょうか？</Text>
       <Text>タロットを引いてみましょう</Text>
     
-    <Button title= "1枚引く" onPress={() => router.push('/drow')} />
+    <Button title= "1枚引く" onPress={() => router.push('/drow?spread=single')} />
     </View>
   );
 }
