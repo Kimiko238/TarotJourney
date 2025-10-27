@@ -1,8 +1,7 @@
 
-import {cardList} from "@/components/Data"
+import { Card, cardList } from "@/components/Data";
 
 
-export function drawOne() {
+export function drawOne(): Card[] {
     return [cardList[Math.floor(Math.random() * cardList.length)]];
 }
-
