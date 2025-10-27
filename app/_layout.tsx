@@ -23,10 +23,11 @@ export default function RootLayout() {
         }}
         >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="drow" options={{ title: 'カードを引く' }} />
-        <Stack.Screen name="result" options={{ title: '結果' }} />
+        <Stack.Screen name="drow" options={{ title: 'ホーム画面へ戻る' }} />
+        <Stack.Screen name="result" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
+ 

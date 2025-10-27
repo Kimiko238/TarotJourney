@@ -13,16 +13,18 @@ import Animated, {
 const { width, height } = Dimensions.get("window");
 
 const cards = [
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
+  require("../assets/images/back_side.png"),
 ];
 
 export default function ShuffleAnimation({
