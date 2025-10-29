@@ -1,5 +1,5 @@
-import React from "react";
 import { Link, useLocalSearchParams } from "expo-router";
+import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 import { Card } from "@/components/Data";
@@ -10,6 +10,7 @@ export default function ResultScreen() {
   const params = useLocalSearchParams<{ postDataList?: string | string[] }>();
 
   const cards = React.useMemo<Card[]>(() => {
+    // ここでカードのデータを取得
     const raw = params.postDataList;
     const serialized = Array.isArray(raw) ? raw[0] : raw;
     if (!serialized) {
@@ -33,15 +34,26 @@ export default function ResultScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">あなたが引いたカードはこちら。</ThemedText>
+      <ThemedText type="title">引いたカードはこちら</ThemedText>
       {cards.length > 0 ? (
         <View style={styles.cardsWrapper}>
           {cards.map((card) => {
             const source = cardImages[card.id];
+            console.log(card.id);
             return (
               <View style={styles.cardBlock} key={card.id}>
-                {source && <Image source={source} style={styles.cardImage} />}
-                <ThemedText type="subtitle">{card.name}</ThemedText>
+                {source && (
+                  <Image
+                    source={source}
+                    style={[
+                      styles.cardImage,
+                      card.isReversed && { transform: [{ rotate: "180deg" }] },
+                    ]}
+                  />
+                )}
+                <ThemedText type="subtitle">
+                  {card.isReversed ? `${card.name}（逆位置）` :  `${card.name}（正位置）`}
+                </ThemedText>
               </View>
             );
           })}

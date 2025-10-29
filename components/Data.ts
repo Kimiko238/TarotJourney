@@ -1,8 +1,9 @@
 
 export type Card = {
-    id: string,
-    name: string,
-}
+    id: string;
+    name: string;
+    isReversed?: boolean;
+};
 
 export const  cardList : Card[] = [
     {id:"0", name:"愚者"},
@@ -17,5 +18,14 @@ export const  cardList : Card[] = [
     {id:"9", name:"隠者"},
     {id:"10", name:"運命の輪"},
     {id:"11", name:"正義"},
-    {id:"0", name:"愚者"},
+    {id:"12", name:"吊るされた男"},
+     {id:"13", name:"死神"},
+    {id:"14", name:"節制"},
+    {id:"15", name:"悪魔"},
+    {id:"16", name:"塔"},
+    {id:"17", name:"星"},
+    {id:"18", name:"月"},
+    {id:"19", name:"太陽"},
+    {id:"20", name:"審判"},
+    {id:"21", name:"世界"},
 ]

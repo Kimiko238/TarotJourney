@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -9,6 +9,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
+import ButtonImage from "./ui/Button";
 
 const { width, height } = Dimensions.get("window");
 
@@ -131,30 +132,37 @@ export default function ShuffleAnimation({
   };
 
   return (
-    <View style={styles.cardField}>
-      <View style={styles.container}>
-        {cards.map((card, i) => (
-          <Animated.View
-            key={i}
-            style={[
-              styles.card,
-              { zIndex: i, position: "absolute" }, // ←ここで少しずらす！
-              animatedStyles[i],
-            ]}
-          >
-            <Image source={card} style={styles.image} resizeMode="contain" />
-          </Animated.View>
-        ))}
+    <View style={styles.root}>
+      <View style={styles.cardField}>
+        <View style={styles.container}>
+          {cards.map((card, i) => (
+            <Animated.View
+              key={i}
+              style={[
+                styles.card,
+                { zIndex: i, position: "absolute" },
+                animatedStyles[i],
+              ]}
+            >
+              <Image source={card} style={styles.image} resizeMode="contain" />
+            </Animated.View>
+          ))}
+        </View>
       </View>
-      {/* ボタンを下部に配置 */}
       <View style={styles.buttonContainer}>
-        <Button title="カードを引く" onPress={handleDrawPress} />
+        <ButtonImage label="カードを引く" onClick={handleDrawPress} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 32,
+  },
   container: {
     alignItems: "center",
     justifyContent: "center",
@@ -162,9 +170,10 @@ const styles = StyleSheet.create({
   },
 
   cardField: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
   },
   card: {
     width: 120,
@@ -179,7 +188,8 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    position: "absolute", // 下に固定
-    bottom: 60, // 画面下からの距離を調整
+    paddingBottom: 16,
+    width: "100%",
+    alignItems: "center",
   },
 });
