@@ -43,10 +43,12 @@ export default function ShuffleAnimation({
   const navigationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const rotationDelayTimers: Array<ReturnType<typeof setTimeout>> = [];
+    const positionDelayTimers: Array<ReturnType<typeof setTimeout>> = [];
     // 繰り返しのシャッフル動作
     rotations.forEach((rotation, i) => {
       const delay = i * 100;
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         rotation.value = withRepeat(
           withSequence(
             withTiming(-45 + Math.random() * 30, {
@@ -62,11 +64,12 @@ export default function ShuffleAnimation({
           true
         );
       }, delay);
+      rotationDelayTimers.push(timer);
     });
 
     positions.forEach((p, i) => {
       const delay = i * 150;
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const randomRangeX = width * 0.25;
         const randomRangeY = height * 0.25;
 
@@ -88,6 +91,7 @@ export default function ShuffleAnimation({
           true
         );
       }, delay);
+      positionDelayTimers.push(timer);
     });
 
     return () => {
@@ -96,6 +100,8 @@ export default function ShuffleAnimation({
         cancelAnimation(p.x);
         cancelAnimation(p.y);
       });
+      rotationDelayTimers.forEach(clearTimeout);
+      positionDelayTimers.forEach(clearTimeout);
 
       if (navigationTimeout.current) {
         clearTimeout(navigationTimeout.current);
@@ -144,7 +150,12 @@ export default function ShuffleAnimation({
                 animatedStyles[i],
               ]}
             >
-              <Image source={card} style={styles.image} resizeMode="contain" />
+              <Image
+                source={card}
+                style={styles.image}
+                resizeMode="contain"
+                testID="shuffle-card"
+              />
             </Animated.View>
           ))}
         </View>
