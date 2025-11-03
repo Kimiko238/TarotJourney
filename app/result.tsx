@@ -49,6 +49,7 @@ export default function ResultScreen() {
                       styles.cardImage,
                       card.isReversed && { transform: [{ rotate: "180deg" }] },
                     ]}
+                    testID="result-card-image"
                   />
                 )}
                 <ThemedText type="subtitle">
