@@ -15,14 +15,17 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarPosition: 'top',
+        tabBarPosition: "top",
+        
+        headerTintColor: Colors.light.text,
+        tabBarStyle: { backgroundColor: Colors.light.background },
       }}
     >
       {/* ホーム画面の設定 */}
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "ホーム画面",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="house.fill" color={color} />
           ),

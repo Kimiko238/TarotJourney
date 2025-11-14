@@ -1,169 +1,22 @@
-import React, { useEffect } from "react";
-import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
-import Animated, {
-  cancelAnimation,
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from "react-native-reanimated";
+import React from "react";
+import { StyleSheet } from "react-native";
+import ShuffleAnimation from "../components/ShuffleMotion";
+import { router } from "expo-router";
+import { drawOne } from "@/components/spreadAlgrithm"
 
-const { width, height } = Dimensions.get("window");
-
-const cards = [
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-  require("../assets/images/fool_1.png"),
-];
-
-export default function ShuffleAnimation({
-  onShuffleEnd,
-}: {
-  onShuffleEnd: () => void;
-}) {
-  const rotations = cards.map(() => useSharedValue(0));
-  const positions = cards.map(() => ({
-    x: useSharedValue(0),
-    y: useSharedValue(0),
-  }));
-
-  useEffect(() => {
-    // 繰り返しのシャッフル動作
-    rotations.forEach((rotation, i) => {
-      const delay = i * 100;
-      setTimeout(() => {
-        rotation.value = withRepeat(
-          withSequence(
-            withTiming(-45 + Math.random() * 30, {
-              duration: 800,
-              easing: Easing.linear,
-            }),
-            withTiming(45 + Math.random() * 30, {
-              duration: 800,
-              easing: Easing.linear,
-            })
-          ),
-          -1,
-          true
-        );
-      }, delay);
-    });
-
-    positions.forEach((p, i) => {
-      const delay = i * 150;
-      setTimeout(() => {
-        const randomRangeX = width * 0.25;
-        const randomRangeY = height * 0.25;
-
-        p.x.value = withRepeat(
-          withSequence(
-            withTiming((Math.random() - 0.1) * randomRangeX, { duration: 900 }),
-            withTiming((Math.random() - 0.5) * randomRangeX, { duration: 400 })
-          ),
-          -1,
-          true
-        );
-
-        p.y.value = withRepeat(
-          withSequence(
-            withTiming((Math.random() - 0.4) * randomRangeY, { duration: 400 }),
-            withTiming((Math.random() - 0.5) * randomRangeY, { duration: 900 })
-          ),
-          -1,
-          true
-        );
-      }, delay);
-    });
-
-    return () => {
-      rotations.forEach(cancelAnimation);
-      positions.forEach((p) => {
-        cancelAnimation(p.x);
-        cancelAnimation(p.y);
-      });
-    };
-  }, []);
-
-  //見た目に反映
-  const animatedStyles = rotations.map((r, i) =>
-    useAnimatedStyle(() => ({
-      transform: [
-        { rotate: `${r.value}deg` },
-        { translateX: positions[i].x.value },
-        { translateY: positions[i].y.value },
-      ],
-    }))
-  );
-
-  // 「カードを引く」ボタンを押下時：アニメ停止→位置を戻す→onShuffleEnd()
-  const handleDrawPress = () => {
-    rotations.forEach(cancelAnimation);
-    rotations.forEach((r) => (r.value = withTiming(0, { duration: 200 })));
-    positions.forEach((p) => {
-      p.x.value = withTiming(0, { duration: 200 });
-      p.y.value = withTiming(0, { duration: 200 });
-    });
-    onShuffleEnd();
+export default function ShuffleView(spread: string) {
+  const handlePress = () => {
+    // シャッフル停止、抽選コンポーネント表示、結果画面へ遷移など
+    console.log("ボタンが押されました。ここで抽選を開始します。");
+    let result;
+    result = drawOne();
+     router.push({pathname:"/result", params: {postDataList:JSON.stringify(result)}});
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.cardField}>
-        {cards.map((card, i) => (
-          <Animated.View
-            key={i}
-            style={[
-              styles.card,
-              { zIndex: i, position: "absolute" }, // ←ここで少しずらす！
-              animatedStyles[i],
-            ]}
-          >
-            <Image source={card} style={styles.image} resizeMode="contain" />
-          </Animated.View>
-        ))}
-      </View>
-
-      {/* ボタンを下部に配置 */}
-      <View style={styles.buttonContainer}>
-        <Button title="カードを引く" onPress={handleDrawPress} />
-      </View>
-    </View>
-  );
+    
+  <ShuffleAnimation spread={spread} onSwitchPress={handlePress} />
+);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  cardField: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonContainer: {
-    position: "absolute", // 下に固定
-    bottom: 60, // 画面下からの距離を調整
-  },
-  card: {
-    width: 120,
-    height: 180,
-    borderRadius: 12,
-    backgroundColor: "#ddd",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 12,
-  },
-});
+const styles = StyleSheet.create({});
